@@ -4,12 +4,12 @@ asn1crypto==1.5.1
 certifi==2026.1.4
 cffi==2.0.0
 charset-normalizer==3.4.4
-crispy-bootstrap5==2025.6
+crispy-bootstrap5==0.7
 cryptography==46.0.3
 cssselect2==0.8.0
 Django==4.2.10
-django-crispy-forms==2.5
-django-filter==25.2
+django-crispy-forms==2.1
+django-filter==23.5
 freetype-py==2.5.1
 html5lib==1.1
 idna==3.11
