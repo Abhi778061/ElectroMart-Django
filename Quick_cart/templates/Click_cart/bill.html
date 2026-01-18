@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <div class="card shadow-lg border-0">
+
+        <!-- HEADER -->
+        <div class="card-header bg-dark text-white py-3">
+          <div class="d-flex align-items-center justify-content-between flex-wrap">
+
+            <div class="d-flex align-items-center">
+              <img src="https://tse1.mm.bing.net/th/id/OIP.SNXMR3qEpRRlouBYrNE-VwHaHT"
+                   width="45" height="45"
+                   class="rounded-circle me-3">
+              <div>
+                <h5 class="mb-0">
+                  Electro<span style="color:#f4511e;">Mart</span>
+                </h5>
+                <small class="text-light">Order Bill</small>
+              </div>
+            </div>
+
+            <span class="badge bg-success fs-6 mt-2 mt-md-0">
+              Order Confirmed
+            </span>
+
+          </div>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body px-4 py-4">
+
+          <!-- ORDER INFO -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <p class="mb-1"><strong>Order ID:</strong> #{{ order.id }}</p>
+              <p class="mb-1"><strong>Customer:</strong> {{ order.name }}</p>
+              <p class="mb-1"><strong>Phone:</strong> {{ order.phone }}</p>
+            </div>
+
+            <div class="col-md-6 text-md-end">
+              <p class="mb-1">
+                <strong>Date & Time:</strong><br>
+                {{ order.date|date:"d M Y, h:i A" }}
+              </p>
+              <p class="mb-1"><strong>Payment:</strong> Cash on Delivery</p>
+            </div>
+          </div>
+
+          <hr>
+
+          <!-- ADDRESS -->
+          <div class="mb-4">
+            <h6 class="fw-bold">📍 Delivery Address</h6>
+            <p class="text-muted mb-0">{{ order.address }}</p>
+          </div>
+
+          <hr>
+
+          <!-- PURCHASED PRODUCTS (NO TABLE) -->
+          <div class="mb-4">
+            <h6 class="fw-bold mb-3">🛍 Purchased Products</h6>
+
+            {% for item in order.items.all %}
+              <div class="mb-3 p-3 border rounded">
+                <h6 class="fw-semibold mb-1">
+                  {{ item.product.name }}
+                </h6>
+
+                <p class="text-muted mb-1">
+                  {{ item.product.description }}
+                </p>
+
+                <p class="small text-muted mb-0">
+                  Quantity: {{ item.quantity }} |
+                  Price per item: ₹{{ item.product.price }}
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+
+          <hr>
+
+          <!-- SIMPLE DESCRIPTION -->
+          <div class="mb-4">
+            <p class="text-muted">
+              Thank you for shopping with <strong>ElectroMart</strong>.
+              This order contains the products listed above.
+              Your items will be delivered to the provided address.
+            </p>
+          </div>
+
+          <!-- TOTAL -->
+          <div class="text-center mt-4">
+            <h6 class="fw-bold mb-1">Total Amount Paid</h6>
+            <h2 class="text-success fw-bold">
+              ₹{{ order.total }}
+            </h2>
+          </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="card-footer bg-light text-center py-3">
+          <p class="mb-2 text-muted">
+            Thank you for shopping with ElectroMart 💙
+          </p>
+
+          <a href="{% url 'invoice_pdf' order.id %}"
+             class="btn btn-outline-primary me-2">
+            ⬇ Download Invoice
+          </a>
+
+          <a href="{% url 'orders' %}"
+             class="btn btn-outline-secondary">
+            ← Back to Orders
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

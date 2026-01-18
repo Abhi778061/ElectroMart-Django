@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container my-5">
+
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+
+      <!-- SUCCESS CARD -->
+      <div class="card shadow-lg border-0 text-center p-4">
+
+        <!-- SUCCESS ICON -->
+        <div class="mb-3">
+          <div
+            class="rounded-circle bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center"
+            style="width:80px;height:80px;">
+            <span style="font-size:40px;">✅</span>
+          </div>
+        </div>
+
+        <!-- TITLE -->
+        <h2 class="fw-bold text-success mb-2">
+          Thank You!
+        </h2>
+
+        <!-- MESSAGE -->
+        <p class="text-muted mb-4 fs-5">
+          Your order has been placed successfully.
+        </p>
+
+        <!-- INFO BOX -->
+        <div class="alert alert-success text-start small mb-4">
+          🛒 <strong>Order Status:</strong> Confirmed <br>
+          📦 <strong>Delivery:</strong> Processing <br>
+          🧾 <strong>Invoice:</strong> Available in Orders
+        </div>
+        <!--Product Name Details-->
+        <div class="alert alert-info text-start small mb-4">
+          📄 <strong>Ordered Items:</strong>
+          <ul>
+            {% for item in order.items.all %}
+              <li>{{ item.product.name }} (Qty: {{ item.quantity }})</li>
+            {% endfor %}
+          </ul>
+
+        <!-- ACTION BUTTONS -->
+        <div class="d-grid gap-3">
+
+          <a href="{% url 'orders' %}"
+             class="btn btn-primary btn-lg">
+            View Your Orders
+          </a>
+
+          <a href="{% url 'home' %}"
+             class="btn btn-outline-secondary">
+            Continue Shopping
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- EXTRA TRUST TEXT -->
+      <p class="text-center text-muted small mt-4">
+        🔒 Safe & Secure Payments · 📦 Fast Delivery · 💯 Genuine Products
+      </p>
+
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

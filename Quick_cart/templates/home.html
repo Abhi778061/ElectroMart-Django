@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid px-4 mt-4">
+
+  {# ================= HERO / BANNER SECTION ================= #}
+  {# Show ONLY when NOT searching #}
+  {% if not query %}
+
+    {% if is_trending %}
+      <center><h1 class="fw-bold">🔥 Trending Products</h1></center>
+      <center><h2 class="text-muted">Selling fast now – don’t miss out!</h2></center>
+
+      <img src="https://www.acghar.com/_next/image?url=https%3A%2F%2Fcdn.acghar.com%2Fpublic%2Ffiles%2F7DEC3C1CF18CB59-New_electroreftech_home_appliance_nepal-1.jpg&w=3840&q=75"
+           style="width:100%; height:280px; border-radius:5px; object-fit:cover; margin-bottom:15px;"
+           alt="Trending Products Banner">
+
+      <center><h4 class="fw-bold mt-3">🔥 Shop the hottest electronics in demand!</h4></center>
+
+    {% else %}
+      <center><h1 class="fw-bold">All Products</h1></center>
+      <center>
+        <h2 class="text-muted">
+          Welcome to <span class="text-primary">Electro</span>
+          <span style="color:#f4511e;">Mart</span>
+        </h2>
+      </center>
+
+      <img src="https://www.dalmamall.ae/media/n03a0ssh/large-banner.png?width=1190&height=425"
+           style="width:100%; height:280px; border-radius:5px; object-fit:cover; margin-bottom:15px;"
+           alt="ElectroMart Banner">
+
+      <center>
+        <h4 class="fw-bold mt-3">
+          Discover a wide range of electronics at unbeatable prices!
+        </h4>
+      </center>
+    {% endif %}
+
+  {% endif %}
+  {# ================= END HERO ================= #}
+
+
+  {# ================= SEARCH / PRODUCT LIST ================= #}
+  <div class="row justify-content-center mt-4">
+
+    {% for product in products %}
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-4">
+
+        <div class="card h-100 shadow-sm text-center product-card">
+
+          <img src="{{ product.image.url }}"
+               class="card-img-top"
+               style="height:200px; object-fit:contain; padding:10px;">
+
+          <div class="card-body">
+            <h6 class="fw-semibold">{{ product.name }}</h6>
+            <p class="mb-2">₹{{ product.price }}</p>
+
+            <a href="{% url 'product_detail' product.id %}"
+               class="btn btn-primary btn-sm mb-1">View</a>
+
+            <a href="{% url 'add_to_cart' product.id %}"
+               class="btn btn-success btn-sm mb-1">Add to Cart</a>
+
+            <a href="{% url 'add_to_wishlist' product.id %}"
+               class="btn btn-outline-danger btn-sm">❤</a>
+          </div>
+
+        </div>
+
+      </div>
+    {% empty %}
+      <div class="col-12 text-center mt-5">
+        <h5 class="text-muted">No products found</h5>
+      </div>
+    {% endfor %}
+
+  </div>
+  {# ================= END PRODUCTS ================= #}
+
+</div>
+
+
+{# ================= FOOTER ================= #}
+<footer class="bg-dark text-white mt-5">
+  <div class="container-fluid text-center py-4 px-4">
+
+    <h6 class="fw-semibold mb-2">
+      ElectroMart – E-Commerce Web Application
+    </h6>
+
+    <p class="small text-secondary mb-2">
+      ElectroMart is a self-developed full-stack e-commerce web application built using
+      Django and Bootstrap. It includes authentication, product browsing, cart and
+      wishlist management, secure checkout, and invoice generation.
+    </p>
+
+    <p class="small text-secondary mb-2">
+      This project reflects my hands-on experience with backend development,
+      responsive UI design, database integration, and real-world application workflows.
+    </p>
+
+    <p class="mb-2">
+      👨‍💻 Designed & Developed by <strong>Abhinay</strong>
+    </p>
+
+    <div class="mb-2">
+      <a href="https://www.linkedin.com/in/abhinay-thallapally-3b69b8323"
+         target="_blank" class="text-primary me-3 text-decoration-none">LinkedIn</a>
+
+      <a href="https://github.com/Abhi778061"
+         target="_blank" class="text-light me-3 text-decoration-none">GitHub</a>
+
+      <a href="https://www.instagram.com/_mr__abhi_18"
+         target="_blank" class="text-danger text-decoration-none">Instagram</a>
+    </div>
+
+    <p class="small text-secondary mb-0">
+      © 2026 ElectroMart. All Rights Reserved.
+    </p>
+
+  </div>
+</footer>
+
+{% endblock %}

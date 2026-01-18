@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ElectroMart Invoice</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .invoice-wrapper {
+            max-width: 720px;
+            margin: auto;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            padding: 30px;
+        }
+
+        /* HEADER */
+        .header {
+            border-bottom: 2px solid #2874f0;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .brand {
+            font-size: 26px;
+            font-weight: bold;
+            color: #2874f0;
+        }
+
+        .brand span {
+            color: #f4511e;
+        }
+
+        .invoice-title {
+            font-size: 14px;
+            color: #555;
+            margin-top: 4px;
+        }
+
+        .paid {
+            float: right;
+            background: #28a745;
+            color: #fff;
+            padding: 4px 12px;
+            font-size: 12px;
+            border-radius: 3px;
+            margin-top: -35px;
+        }
+
+        /* SECTIONS */
+        .section {
+            margin-top: 20px;
+        }
+
+        .section h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 4px;
+        }
+
+        .info p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table th {
+            text-align: left;
+            background: #f2f2f2;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+        }
+
+        table td {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+        }
+
+        .total-row td {
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="invoice-wrapper">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="brand">
+            Electro<span>Mart</span>
+        </div>
+        <div class="invoice-title">Invoice Receipt</div>
+        <div class="paid">PAID</div>
+    </div>
+
+    <!-- ORDER INFO -->
+    <div class="section info">
+        <h3>Order Details</h3>
+        <p><strong>Order ID:</strong> #{{ order.id }}</p>
+        <p><strong>Date:</strong> {{ order.date }}</p>
+    </div>
+
+    <!-- CUSTOMER INFO -->
+    <div class="section info">
+        <h3>Billing Information</h3>
+        <p><strong>Name:</strong> {{ order.name }}</p>
+        <p><strong>Phone:</strong> {{ order.phone }}</p>
+        <p><strong>Address:</strong> {{ order.address }}</p>
+    </div>
+
+    <!-- PAYMENT SUMMARY -->
+    <div class="section">
+        <h3>Payment Summary</h3>
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+            </tr>
+            <tr class="total-row">
+                <td>Total Amount Paid</td>
+                <td>₹ {{ order.total }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        Thank you for shopping with <strong>ElectroMart</strong> ❤️<br>
+        This is a system-generated invoice and does not require a signature.
+    </div>
+
+</div>
+
+</body>
+</html>

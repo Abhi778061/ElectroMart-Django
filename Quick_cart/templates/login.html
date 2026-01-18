@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  /* ✅ IMPORTANT FIX
+     Hide base.html message bar ONLY on login page
+     This was hiding "Create an account" after error
+  */
+  .container.mt-3 {
+    display: none;
+  }
+
+  /* ✅ Ensure page can expand normally */
+  main {
+    overflow-y: visible !important;
+  }
+</style>
+
+<div class="row justify-content-center mt-5">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+
+        <h4 class="text-center fw-bold mb-3">
+          Login to ElectroMart
+        </h4>
+
+        <p class="text-center text-muted mb-3">
+          Access your cart, orders & wishlist
+        </p>
+
+        <!-- ✅ Amazon / Flipkart style inline error -->
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-danger text-center py-2">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="POST" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text"
+                   class="form-control"
+                   name="username"
+                   placeholder="Enter username"
+                   required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <div class="input-group">
+              <input type="password"
+                     id="password"
+                     class="form-control"
+                     name="password"
+                     placeholder="Enter password"
+                     required>
+
+              <span class="input-group-text"
+                    style="cursor:pointer"
+                    onclick="togglePassword()">👁️</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-warning w-100 fw-semibold">
+            Login
+          </button>
+        </form>
+
+        <hr class="my-4">
+
+        <!-- ✅ This will ALWAYS be visible now -->
+        <p class="text-center mb-0">
+          New to ElectroMart?
+          <a href="{% url 'register' %}" class="fw-semibold text-decoration-none">
+            Create an account
+          </a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function togglePassword() {
+    const pwd = document.getElementById("password");
+    pwd.type = pwd.type === "password" ? "text" : "password";
+  }
+</script>
+
+{% endblock %}

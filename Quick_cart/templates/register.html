@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center mt-5">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+
+        <h4 class="text-center fw-bold mb-3">Create Account</h4>
+
+        <form method="POST" autocomplete="off" onsubmit="return checkPass()">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label>Username</label>
+            <input type="text"
+                   name="username"
+                   class="form-control"
+                   autocomplete="off"
+                   required>
+          </div>
+
+          <div class="mb-3">
+            <label>Password</label>
+            <input type="password"
+                   id="p1"
+                   name="password"
+                   class="form-control"
+                   autocomplete="off"
+                   required>
+          </div>
+
+          <div class="mb-3">
+            <label>Confirm Password</label>
+            <input type="password"
+                   id="p2"
+                   class="form-control"
+                   autocomplete="off"
+                   required>
+            <small id="err" class="text-danger d-none">Passwords mismatch</small>
+          </div>
+
+          <button class="btn btn-primary w-100">Register</button>
+          <hr class="my-4">
+
+<p class="text-center mb-0">
+  Already have an account?
+  <a href="{% url 'login' %}" class="fw-semibold text-decoration-none">
+    Login
+  </a>
+</p>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function checkPass() {
+    const a = document.getElementById("p1").value;
+    const b = document.getElementById("p2").value;
+    if (a !== b) {
+      document.getElementById("err").classList.remove("d-none");
+      return false;
+    }
+    return true;
+  }
+</script>
+
+{% endblock %}
