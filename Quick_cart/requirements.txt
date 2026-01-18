@@ -16,3 +16,5 @@ pillow>=10.0
 requests>=2.31.0
 sqlparse>=0.4.4
 tzdata
+
+xhtml2pdf==0.2.17
