@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-7tsz8egwv)4q12_wk3y6t9hyyc353ulkyi36zog13co2+605h(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'electromart-django.onrender.com',
+]
 
 
 # Application definition
