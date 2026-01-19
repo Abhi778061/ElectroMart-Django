@@ -5,6 +5,10 @@ Django settings for Quick_cart project.
 import os
 from pathlib import Path
 
+# =========================
+# BASE
+# =========================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -41,6 +45,8 @@ INSTALLED_APPS = [
     # third-party
     "crispy_forms",
     "crispy_bootstrap5",
+    "cloudinary",
+    "cloudinary_storage",
 
     # local
     "Click_cart",
@@ -75,6 +81,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
@@ -87,9 +94,8 @@ WSGI_APPLICATION = "Quick_cart.wsgi.application"
 
 
 # =========================
-# DATABASE
+# DATABASE (SQLite OK for Render demo)
 # =========================
-# (SQLite is OK for demo projects on Render)
 
 DATABASES = {
     "default": {
@@ -137,11 +143,7 @@ STATICFILES_DIRS = [
 # MEDIA FILES (CLOUDINARY)
 # =========================
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = "/media/"
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
@@ -150,9 +152,6 @@ CLOUDINARY_STORAGE = {
     "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
     "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
 }
-
-# ❌ DO NOT use MEDIA_ROOT on Render
-MEDIA_URL = "/media/"
 
 
 # =========================
