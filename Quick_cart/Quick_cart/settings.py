@@ -24,12 +24,7 @@ ALLOWED_HOSTS = [
     "localhost",
     ".onrender.com",
 ]
-# =========================
-# Media Settings
-# =========================
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
 
 # =========================
 # APPLICATIONS
