@@ -18,7 +18,7 @@ DEBUG = os.environ.get("DEBUG", "True") == "True"
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "electromart-django.onrender.com",
+    ".onrender.com",
 ]
 
 # =========================
