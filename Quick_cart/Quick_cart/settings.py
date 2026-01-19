@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     # third-party
     "crispy_forms",
     "crispy_bootstrap5",
-    "cloudinary",
-    "cloudinary_storage",
 
     # local
     "Click_cart",
@@ -138,6 +136,12 @@ STATICFILES_DIRS = [
 # =========================
 # MEDIA FILES (CLOUDINARY)
 # =========================
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 

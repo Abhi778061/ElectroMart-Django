@@ -6,7 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.db.models import Q
-from xhtml2pdf import pisa
+
+# ✅ Safe PDF import
+try:
+    from xhtml2pdf import pisa
+except ImportError:
+    pisa = None
 
 from .models import (
     Product, CartItem, Order, Bill,
@@ -23,7 +28,10 @@ def home(request):
 
     if trending == "1":
         products = products.filter(
-            category__name__in=["Ovens", "Coolers", "Cameras", "Earbuds", "Watches", "Mobiles"]
+            category__name__in=[
+                "Ovens", "Coolers", "Cameras",
+                "Earbuds", "Watches", "Mobiles"
+            ]
         )
 
     if query:
@@ -68,7 +76,10 @@ def add_to_cart(request, product_id):
 def cart(request):
     items = CartItem.objects.filter(user=request.user)
     total = sum(item.product.price * item.quantity for item in items)
-    return render(request, 'Click_cart/cart.html', {'items': items, 'total': total})
+    return render(request, 'Click_cart/cart.html', {
+        'items': items,
+        'total': total
+    })
 
 
 @login_required
@@ -99,7 +110,10 @@ def remove_from_cart(request, id):
 def checkout(request):
     items = CartItem.objects.filter(user=request.user)
     total = sum(item.total_price() for item in items)
-    return render(request, 'checkout.html', {'items': items, 'total': total})
+    return render(request, 'checkout.html', {
+        'items': items,
+        'total': total
+    })
 
 
 @login_required
@@ -122,12 +136,10 @@ def place_cart_order(request):
         )
 
         Bill.objects.create(order=order)
-
-        # Clear cart AFTER order created
         items.delete()
 
         messages.success(request, "Order placed successfully!")
-        return redirect('thankyou')   # ✅ THIS IS THE FIX
+        return redirect('thankyou')
 
     return redirect('cart')
 
@@ -152,25 +164,22 @@ def login_user(request):
     from_register = request.GET.get('from_register') == '1'
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
         user = authenticate(
             request,
-            username=username,
-            password=password
+            username=request.POST.get('username'),
+            password=request.POST.get('password')
         )
 
         if user:
             login(request, user)
             return redirect('home')
-        else:
-            # 🔔 POPUP MESSAGE
-            messages.error(request, "Invalid username or password")
 
-            return redirect('login')
+        messages.error(request, "Invalid username or password")
+        return redirect('login')
 
-    return render(request, 'login.html', {'from_register': from_register})
+    return render(request, 'login.html', {
+        'from_register': from_register
+    })
 
 
 def logout_user(request):
@@ -185,6 +194,7 @@ def logout_user(request):
 def order_history(request):
     orders = Order.objects.filter(user=request.user)
     return render(request, 'orders.html', {'orders': orders})
+
 
 @login_required
 def bill_view(request, order_id):
@@ -204,7 +214,9 @@ def add_to_wishlist(request, product_id):
 @login_required
 def wishlist_view(request):
     wishlist_items = Wishlist.objects.filter(user=request.user)
-    return render(request, 'wishlist.html', {'wishlist_items': wishlist_items})
+    return render(request, 'wishlist.html', {
+        'wishlist_items': wishlist_items
+    })
 
 
 @login_required
@@ -213,49 +225,24 @@ def remove_from_wishlist(request, id):
     return redirect('wishlist')
 
 
-# ===================== INVOICE =====================
+# ===================== INVOICE PDF =====================
 
+@login_required
 def invoice_pdf(request, order_id):
+    if not pisa:
+        return HttpResponse(
+            "PDF feature is currently unavailable.",
+            status=503
+        )
+
     order = get_object_or_404(Order, id=order_id)
     template = get_template('Click_cart/invoice_pdf.html')
     html = template.render({'order': order})
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="invoice_{order.id}.pdf"'
+    response['Content-Disposition'] = (
+        f'attachment; filename="invoice_{order.id}.pdf"'
+    )
+
     pisa.CreatePDF(html, dest=response)
     return response
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
