@@ -5,6 +5,10 @@ Django settings for Quick_cart project.
 from pathlib import Path
 import os
 
+# =========================
+# BASE DIR
+# =========================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # =========================
@@ -20,6 +24,12 @@ ALLOWED_HOSTS = [
     "localhost",
     ".onrender.com",
 ]
+# =========================
+# Media Settings
+# =========================
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # =========================
 # APPLICATIONS
@@ -36,8 +46,6 @@ INSTALLED_APPS = [
     # third-party
     "crispy_forms",
     "crispy_bootstrap5",
-
-    # cloudinary storage
     "cloudinary",
     "cloudinary_storage",
 
@@ -123,24 +131,19 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # =========================
-# MEDIA FILES
+# MEDIA & CLOUDINARY
 # =========================
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# =========================
-# CLOUDINARY (ONLY IN PRODUCTION)
-# =========================
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
-if not DEBUG:
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-    CLOUDINARY_STORAGE = {
-        "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
-        "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
-        "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
-    }
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+}
 
 # =========================
 # CRISPY FORMS
