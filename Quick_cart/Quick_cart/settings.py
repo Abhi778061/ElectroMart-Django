@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
 
-    # cloudinary ONLY when needed
+    # cloudinary storage
     "cloudinary",
     "cloudinary_storage",
 
@@ -123,13 +123,16 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # =========================
-# MEDIA FILES (LOCAL vs CLOUD)
+# MEDIA FILES
 # =========================
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# 👉 USE CLOUDINARY ONLY IN PRODUCTION
+# =========================
+# CLOUDINARY (ONLY IN PRODUCTION)
+# =========================
+
 if not DEBUG:
     DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
