@@ -1,41 +1,50 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
 
 <div class="container my-5">
-
-  <div class="row g-5">
+  <div class="row g-5 align-items-start">
 
     <!-- ================= LEFT : IMAGES ================= -->
     <div class="col-md-5 text-center">
 
-      <!-- Main Image -->
-      <img id="mainImage"
-           src="{{ product.image.url }}"
-           class="img-fluid rounded shadow mb-3"
-           style="max-height: 380px;"
-           alt="{{ product.name }}">
+      {% if product.image %}
+        <img id="mainImage"
+             src="{{ product.image.url }}"
+             class="img-fluid rounded shadow mb-3"
+             style="max-height: 360px; object-fit: contain;"
+             alt="{{ product.name }}">
+      {% else %}
+        <img id="mainImage"
+             src="{% static 'img/no-image.png' %}"
+             class="img-fluid rounded shadow mb-3"
+             style="max-height: 360px;"
+             alt="No image">
+      {% endif %}
 
       <!-- Thumbnails -->
-      <div class="d-flex justify-content-center gap-3 mt-3">
-        <img src="{{ product.image.url }}" class="thumb active" onclick="changeImage(this)">
-        <img src="{{ product.image.url }}" class="thumb" onclick="changeImage(this)">
-        <img src="{{ product.image.url }}" class="thumb" onclick="changeImage(this)">
-        <img src="{{ product.image.url }}" class="thumb" onclick="changeImage(this)">
+      <div class="d-flex justify-content-center gap-3 mb-4">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" class="thumb active" onclick="changeImage(this)">
+          <img src="{{ product.image.url }}" class="thumb" onclick="changeImage(this)">
+          <img src="{{ product.image.url }}" class="thumb" onclick="changeImage(this)">
+          <img src="{{ product.image.url }}" class="thumb" onclick="changeImage(this)">
+        {% else %}
+          <img src="{% static 'img/no-image.png' %}" class="thumb active">
+        {% endif %}
       </div>
 
-      <!-- ✅ IMAGE DOWN : 3 LINES (NEW - ONLY THIS ADDED) -->
-      <div class="mt-4 text-muted small text-start">
-        <h4 class="fw-bold text-dark mb-2">Overview</h4>
+      <!-- Overview (NORMAL FLOW – NO SCROLL) -->
+      <div class="text-muted small text-start">
+        <h5 class="fw-bold text-dark mb-2">Overview</h5>
         <p class="mb-1">✔ Original product with brand warranty</p>
         <p class="mb-1">✔ Carefully packed & quality checked</p>
-        <p class="mb-0">✔ Trusted by thousands of ElectroMart customers</p>
+        <p class="mb-1">✔ Trusted by thousands of customers</p>
       </div>
 
     </div>
 
-    <!-- ================= RIGHT : PRODUCT DETAILS ================= -->
+    <!-- ================= RIGHT : DETAILS ================= -->
     <div class="col-md-7">
 
       <h3 class="fw-bold">{{ product.name }}</h3>
@@ -55,22 +64,20 @@
         <span class="text-muted fs-6 text-decoration-line-through ms-2">
           ₹{{ product.price|add:2000 }}
         </span>
-        <span class="text-danger fs-6 ms-2">
-          20% OFF
-        </span>
+        <span class="text-danger fs-6 ms-2">20% OFF</span>
       </h4>
 
       <p class="text-success fw-semibold">
         Special price – limited time deal
       </p>
 
-      <p class="mt-3 text-muted">
-        {{ product.description|default:"Premium quality product designed for modern users. Reliable performance, stylish design, and long-lasting durability make it perfect for everyday use." }}
+      <!-- DELIVERY LINE (ONLY ONE LINE ADDED) -->
+      <p class="fw-semibold text-primary mb-3">
+        📦 Order now & get delivery by <span class="text-success">Tomorrow</span>
       </p>
 
-      <p class="mt-2">
-        🚚 <strong>Delivery:</strong> Free delivery by
-        <span class="text-success fw-semibold">Tomorrow</span>
+      <p class="mt-3 text-muted">
+        {{ product.description|default:"Premium quality product designed for modern users." }}
       </p>
 
       <div class="mt-4 d-flex gap-3">
@@ -79,10 +86,10 @@
           🛒 Add to Cart
         </a>
 
-       <a href="{% url 'add_to_wishlist' product.id %}"
-   class="btn btn-outline-danger px-4">
-  ❤️ Add to Wishlist
-</a>
+        <a href="{% url 'add_to_wishlist' product.id %}"
+           class="btn btn-outline-danger px-4">
+          ❤️ Add to Wishlist
+        </a>
       </div>
 
       <div class="mt-4">
@@ -97,31 +104,31 @@
 </div>
 
 <style>
-  .thumb {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 6px;
-    border: 2px solid #ddd;
-    cursor: pointer;
-    transition: 0.3s;
-  }
+.thumb {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid #ddd;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-  .thumb:hover {
-    transform: scale(1.08);
-  }
+.thumb:hover {
+  transform: scale(1.05);
+}
 
-  .thumb.active {
-    border: 2px solid #28a745;
-  }
+.thumb.active {
+  border: 2px solid #28a745;
+}
 </style>
 
 <script>
-  function changeImage(element) {
-    document.getElementById('mainImage').src = element.src;
-    document.querySelectorAll('.thumb').forEach(img => img.classList.remove('active'));
-    element.classList.add('active');
-  }
+function changeImage(element) {
+  document.getElementById('mainImage').src = element.src;
+  document.querySelectorAll('.thumb').forEach(img => img.classList.remove('active'));
+  element.classList.add('active');
+}
 </script>
 
 {% endblock %}

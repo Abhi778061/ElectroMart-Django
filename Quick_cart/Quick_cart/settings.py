@@ -2,33 +2,24 @@
 Django settings for Quick_cart project.
 """
 
-import os
 from pathlib import Path
-
-# =========================
-# BASE
-# =========================
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # =========================
 # SECURITY
 # =========================
 
-SECRET_KEY = os.environ.get(
-    "SECRET_KEY",
-    "django-insecure-local-only"
-)
+SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-local-key")
 
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = [
-    "localhost",
     "127.0.0.1",
+    "localhost",
     "electromart-django.onrender.com",
 ]
-
 
 # =========================
 # APPLICATIONS
@@ -45,13 +36,14 @@ INSTALLED_APPS = [
     # third-party
     "crispy_forms",
     "crispy_bootstrap5",
+
+    # cloudinary ONLY when needed
     "cloudinary",
     "cloudinary_storage",
 
     # local
     "Click_cart",
 ]
-
 
 # =========================
 # MIDDLEWARE
@@ -66,7 +58,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
 
 # =========================
 # URLS & TEMPLATES
@@ -92,9 +83,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "Quick_cart.wsgi.application"
 
-
 # =========================
-# DATABASE (SQLite OK for Render demo)
+# DATABASE
 # =========================
 
 DATABASES = {
@@ -103,7 +93,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # =========================
 # PASSWORD VALIDATION
@@ -116,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-
 # =========================
 # INTERNATIONALIZATION
 # =========================
@@ -126,45 +114,45 @@ TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 
-
 # =========================
 # STATIC FILES
 # =========================
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # =========================
-# MEDIA FILES (CLOUDINARY)
+# MEDIA FILES (LOCAL vs CLOUD)
 # =========================
 
 MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+# 👉 USE CLOUDINARY ONLY IN PRODUCTION
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
-}
-
+    CLOUDINARY_STORAGE = {
+        "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+        "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+        "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+    }
 
 # =========================
-# AUTH & CRISPY
+# CRISPY FORMS
 # =========================
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
+# =========================
+# AUTH
+# =========================
+
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
-
 
 # =========================
 # DEFAULT FIELD

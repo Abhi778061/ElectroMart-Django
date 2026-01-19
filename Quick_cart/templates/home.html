@@ -41,7 +41,7 @@
   {# ================= END HERO ================= #}
 
 
-  {# ================= SEARCH / PRODUCT LIST ================= #}
+  {# ================= PRODUCT LIST ================= #}
   <div class="row justify-content-center mt-4">
 
     {% for product in products %}
@@ -49,9 +49,16 @@
 
         <div class="card h-100 shadow-sm text-center product-card">
 
-          <img src="{{ product.image.url }}"
-               class="card-img-top"
-               style="height:200px; object-fit:contain; padding:10px;">
+          {# ✅ SAFE IMAGE FIX (ONLY CHANGE) #}
+          {% if product.image %}
+            <img src="{{ product.image.url }}"
+                 class="card-img-top"
+                 style="height:200px; object-fit:contain; padding:10px;">
+          {% else %}
+            <img src="https://via.placeholder.com/300x200?text=No+Image"
+                 class="card-img-top"
+                 style="height:200px; object-fit:contain; padding:10px;">
+          {% endif %}
 
           <div class="card-body">
             <h6 class="fw-semibold">{{ product.name }}</h6>
